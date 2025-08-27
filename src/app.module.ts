@@ -1,10 +1,29 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { FoodModule } from './api/food/food.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    HttpModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        auth: {
+          username: configService.get<string>('USER') ?? '',
+          password: configService.get<string>('PASS') ?? '',
+        },
+      }),
+      inject: [ConfigService],
+    }),
+    FoodModule],
+
+  exports: [],
 })
-export class AppModule {}
+export class AppModule { }
