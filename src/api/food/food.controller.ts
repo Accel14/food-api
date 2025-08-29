@@ -52,7 +52,11 @@ export class FoodController {
     }
 
     @Post('check')
-    async check(@Body() body: CheckRequestDTO): Promise<CheckResponseDTO> {
+    @ApiOperation({ summary: 'Проверка баланса' })
+    @ApiStandardResponses(CheckResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async check(@Body() body: CheckRequestDto): Promise<CheckResponseDto> {
         return this.foodService.check(body);
     }
 
@@ -67,7 +71,11 @@ export class FoodController {
     }
 
     @Post('pay')
-    async pay(@Body() body: PayRequestDTO): Promise<PayResponseDTO> {
+    @ApiOperation({ summary: 'Пополнение лицевого счета' })
+    @ApiStandardResponses(PayResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async pay(@Body() body: PayRequestDto): Promise<PayResponseDto> {
         return this.foodService.pay(body);
     }
 
@@ -82,7 +90,11 @@ export class FoodController {
     }
 
     @Post('get-menu')
-    async getMenu(@Body() body: GetMenuRequestDTO): Promise<GetMenuResponseDTO> {
+    @ApiOperation({ summary: 'Запрос списка меню для КШП по буфету' })
+    @ApiStandardResponses(GetMenuResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async getMenu(@Body() body: GetMenuRequestDto): Promise<GetMenuResponseDto> {
         return this.foodService.getMenu(body);
     }
 
@@ -97,7 +109,11 @@ export class FoodController {
     }
 
     @Post('send-check')
-    async sendCheck(@Body() body: SendCheckRequestDTO): Promise<SendCheckResponseDTO> {
+    @ApiOperation({ summary: 'Запрос на передачу состава чека питания по буфету с использованием кода продукта' })
+    @ApiStandardResponses(SendCheckResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async sendCheck(@Body() body: SendCheckRequestDto): Promise<SendCheckResponseDto> {
         return this.foodService.sendCheck(body);
     }
 
@@ -112,7 +128,11 @@ export class FoodController {
     }
 
     @Post('get-report')
-    async getReport(@Body() body: GetReportRequestDTO): Promise<GetReportResponseDTO> {
+    @ApiOperation({ summary: 'Запрос количества питающихся для КШП по датам и категориям питания' })
+    @ApiStandardResponses(GetReportResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async getReport(@Body() body: GetReportRequestDto): Promise<GetReportResponseDto> {
         return this.foodService.getReport(body);
     }
 
