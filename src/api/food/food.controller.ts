@@ -9,11 +9,33 @@ import { GetReportRequestDTO, GetReportResponseDTO } from './dto/commands/get-re
 
 @Controller('food')
 export class FoodController {
+    private xmlConverter = new XmlConverter();
+
     constructor(private readonly foodService: FoodService) { }
+
+    @Get('check')
+    @ApiOperation({ summary: 'Проверка баланса (GET - XML ответ)' })
+    @ApiStandardResponses(CheckResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async checkGetXml(@Query() query: CheckRequestDto): Promise<string> {
+        const response = await this.foodService.check(query);
+        return this.xmlConverter.convertToXml(response);
+    }
 
     @Post('check')
     async check(@Body() body: CheckRequestDTO): Promise<CheckResponseDTO> {
         return this.foodService.check(body);
+    }
+
+    @Get('pay')
+    @ApiOperation({ summary: 'Pay (GET - XML response)' })
+    @ApiStandardResponses(PayResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async payGetXml(@Query() query: PayRequestDto): Promise<string> {
+        const response = await this.foodService.pay(query);
+        return this.xmlConverter.convertToXml(response);
     }
 
     @Post('pay')
@@ -21,9 +43,14 @@ export class FoodController {
         return this.foodService.pay(body);
     }
 
-    @Post('get-accounts')
-    async getAccounts(@Body() body: GetAccountsRequestDTO): Promise<GetAccountsResponseDTO> {
-        return this.foodService.getAccounts(body);
+    @Get('get-menu')
+    @ApiOperation({ summary: 'GetMenu (GET - XML response)' })
+    @ApiStandardResponses(GetMenuResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async getMenuGetXml(@Query() query: GetMenuRequestDto): Promise<string> {
+        const response = await this.foodService.getMenu(query);
+        return this.xmlConverter.convertToXml(response);
     }
 
     @Post('get-menu')
@@ -31,13 +58,71 @@ export class FoodController {
         return this.foodService.getMenu(body);
     }
 
+    @Get('send-check')
+    @ApiOperation({ summary: 'SendCheck (GET - XML response)' })
+    @ApiStandardResponses(SendCheckResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async sendCheckGetXml(@Query() query: SendCheckRequestDto): Promise<string> {
+        const response = await this.foodService.sendCheck(query);
+        return this.xmlConverter.convertToXml(response);
+    }
+
     @Post('send-check')
     async sendCheck(@Body() body: SendCheckRequestDTO): Promise<SendCheckResponseDTO> {
         return this.foodService.sendCheck(body);
     }
 
+    @Get('get-report')
+    @ApiOperation({ summary: 'GetReport (GET - XML response)' })
+    @ApiStandardResponses(GetReportResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async getReportkGetXml(@Query() query: GetReportRequestDto): Promise<string> {
+        const response = await this.foodService.getReport(query);
+        return this.xmlConverter.convertToXml(response);
+    }
+
     @Post('get-report')
     async getReport(@Body() body: GetReportRequestDTO): Promise<GetReportResponseDTO> {
         return this.foodService.getReport(body);
+    }
+
+    @Get('get-payments')
+    @ApiOperation({ summary: 'GetReport (GET - XML response)' })
+    @ApiStandardResponses(GetPaymentsResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async getPaymentskGetXml(@Query() query: GetPaymentsRequestDto): Promise<string> {
+        const response = await this.foodService.getPayments(query);
+        return this.xmlConverter.convertToXml(response);
+    }
+
+    @Post('get-payments')
+    @ApiOperation({ summary: 'Получение списка пополнений баланса лицевых счетов за период' })
+    @ApiStandardResponses(GetPaymentsResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async getPayments(@Body() body: GetPaymentsRequestDto): Promise<GetPaymentsResponseDto> {
+        return this.foodService.getPayments(body);
+    }
+
+    @Get('get-accounts')
+    @ApiOperation({ summary: 'GetAccounts (GET - XML response)' })
+    @ApiStandardResponses(GetAccountsResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async getAccountskGetXml(@Query() query: GetAccountsRequestDto): Promise<string> {
+        const response = await this.foodService.getAccounts(query);
+        return this.xmlConverter.convertToXml(response);
+    }
+
+    @Post('get-accounts')
+    @ApiOperation({ summary: 'Получение списка лицевых счетов по конкретной школе' })
+    @ApiStandardResponses(GetAccountsResponseDto)
+    @Header('Content-Type', 'application/json')
+    @HttpCode(200)
+    async getAccounts(@Body() body: GetAccountsRequestDto): Promise<GetAccountsResponseDto> {
+        return this.foodService.getAccounts(body);
     }
 }
