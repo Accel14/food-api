@@ -6,11 +6,9 @@ import { of, throwError } from 'rxjs';
 import { CheckRequestDto, CheckResponseDto } from './dto/commands/check-dto';
 import { GetMenuRequestDto, GetMenuResponseDto } from './dto/commands/get-menu-dto';
 import { InternalServerErrorException, Logger, ValidationPipe } from '@nestjs/common';
-import { PayRequestDto, PayResponseDto } from './dto/commands/pay-dto';
-import { SendCheckRequestDto, SendCheckResponseDto } from './dto/commands/send-check.dto';
-import { Axios, AxiosResponse, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import { SendCheckRequestDto, } from './dto/commands/send-check.dto';
+import { AxiosResponse, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { AxiosError } from 'axios';
-import { log } from 'console';
 
 describe('FoodService', () => {
   let service: FoodService;
@@ -158,31 +156,7 @@ describe('FoodService', () => {
         })
       );
     });
-
-
   })
-
-  // describe('get-menu', () => {
-  //   it('should throw an error for an invalid account_type', async () => {
-  //     const invalidRequestDto: GetMenuRequestDto = {
-  //       command: 'get_menu',
-  //       txn_id: 0,
-  //       account: '025',
-  //       account_type: 'invalid_type',
-  //       sum: 0.0,
-  //       agent: 'superagent',
-  //       txn_date: 0,
-  //       service_type: 'diningroom'
-  //     };
-
-  //     await expect(validationPipe.transform(invalidRequestDto, {
-  //       type: 'body',
-  //       metatype: GetMenuRequestDto,
-  //     })).rejects.toThrow();
-
-  //     expect(httpService.post).not.toHaveBeenCalled();
-  //   });
-  // })
 
   describe('postRequest', () => {
     it('should throw an InternalServerErrorException on a failed request', async () => {
@@ -225,7 +199,6 @@ describe('FoodService', () => {
       expect(caughtError).toBeInstanceOf(InternalServerErrorException);
       expect(caughtError.message).toContain('Unexpected error occurred');
 
-      // Logger should have been called because the outer catch always logs unexpected errors
       expect(loggerSpy).toHaveBeenCalledWith(
         `Unexpected error sending request to ${service['apiUrl']}: ${mockError.message}`,
       );
