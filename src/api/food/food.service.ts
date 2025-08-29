@@ -63,6 +63,7 @@ export class FoodService {
         const hasProductId = request.products?.some(p => p.product_id);
         const hasProductCode = request.products?.some(p => p.product_code);
 
+        // TODO: сделать запрос по буфету
         // Если есть product_id - требуется синхронизация
         if (hasProductId && request.service_type === 'buffet') {
             const menu = await this.getMenu({
