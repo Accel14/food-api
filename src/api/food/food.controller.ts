@@ -1,12 +1,40 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { CheckRequestDTO, CheckResponseDTO } from './dto/commands/check-dto';
-import { PayRequestDTO, PayResponseDTO } from './dto/commands/pay-dto';
-import { GetAccountsRequestDTO, GetAccountsResponseDTO } from './dto/commands/get-accounts-dto';
+import { Get, Header, Query, Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { FoodService } from './food.service';
-import { GetMenuRequestDTO, GetMenuResponseDTO } from './dto/commands/get-menu-dto';
-import { SendCheckRequestDTO, SendCheckResponseDTO } from './dto/commands/send-check.dto';
-import { GetReportRequestDTO, GetReportResponseDTO } from './dto/commands/get-report.dto';
+import { BasicAuthGuard } from '../../guards/basic-auth.guard';
+import { XmlConverter } from '../../utils/xml-converter.util';
+import { ApiStandardResponses } from '../api-standard-responses.dto';
 
+import {
+    ApiBasicAuth,
+    ApiOperation,
+} from '@nestjs/swagger';
+
+import {
+    CheckRequestDto,
+    CheckResponseDto,
+
+    PayRequestDto,
+    PayResponseDto,
+
+    GetMenuRequestDto,
+    GetMenuResponseDto,
+
+    SendCheckRequestDto,
+    SendCheckResponseDto,
+
+    GetReportRequestDto,
+    GetReportResponseDto,
+
+    GetPaymentsRequestDto,
+    GetPaymentsResponseDto,
+
+    GetAccountsRequestDto,
+    GetAccountsResponseDto,
+} from './dto/commands';
+
+
+@ApiBasicAuth()
+@UseGuards(BasicAuthGuard)
 @Controller('food')
 export class FoodController {
     private xmlConverter = new XmlConverter();
