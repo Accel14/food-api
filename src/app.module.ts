@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { FoodModule } from './api/food/food.module';
 import { HttpModule } from '@nestjs/axios';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -12,9 +13,6 @@ import { HttpModule } from '@nestjs/axios';
     HttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        headers: {
-          'Content-Type': 'application/json',
-        },
         auth: {
           username: configService.get<string>('USER') ?? '',
           password: configService.get<string>('PASS') ?? '',
@@ -22,7 +20,25 @@ import { HttpModule } from '@nestjs/axios';
       }),
       inject: [ConfigService],
     }),
-    FoodModule],
+    FoodModule,
+    ThrottlerModule.forRoot([
+      {
+        name: 'short',
+        ttl: 1000,
+        limit: 3,
+      },
+      {
+        name: 'medium',
+        ttl: 10000,
+        limit: 20
+      },
+      {
+        name: 'long',
+        ttl: 60000,
+        limit: 100
+      }
+    ]),
+  ],
 
   exports: [],
 })
