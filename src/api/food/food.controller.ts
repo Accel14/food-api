@@ -30,6 +30,9 @@ import {
 
     GetAccountsRequestDto,
     GetAccountsResponseDto,
+
+    CheckProgressRequestDto,
+    CheckProgressResponseDto,
 } from './dto/commands';
 
 
@@ -173,4 +176,16 @@ export class FoodController {
     async getAccounts(@Body() body: GetAccountsRequestDto): Promise<GetAccountsResponseDto> {
         return this.foodService.getAccounts(body);
     }
+
+
+    @Get('check_progress')
+    @ApiOperation({ summary: 'Запрос информации о лицевом счете (расширенный)' })
+    @ApiStandardResponses(CheckProgressResponseDto)
+    @Header('Content-Type', 'application/xml')
+    @HttpCode(200)
+    async checkProgress(@Query() query: CheckProgressRequestDto): Promise<string> {
+        const response = await this.foodService.checkProgress(query);
+        return this.xmlConverter.convertToXml(response);
+    }
+
 }

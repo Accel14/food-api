@@ -26,6 +26,9 @@ import {
 
     GetAccountsRequestDto,
     GetAccountsResponseDto,
+
+    CheckProgressRequestDto,
+    CheckProgressResponseDto,
 } from './dto/commands';
 
 @Injectable()
@@ -106,6 +109,10 @@ export class FoodService {
 
     async getAccounts(request: GetAccountsRequestDto): Promise<GetAccountsResponseDto> {
         return this.postRequest<GetAccountsResponseDto>(request);
+    }
+
+    async checkProgress(request: CheckProgressRequestDto): Promise<CheckProgressResponseDto> {
+        return this.postRequest<CheckProgressResponseDto>(request);
     }
 
     private async postRequest<T>(payload: Record<string, any>): Promise<T> {

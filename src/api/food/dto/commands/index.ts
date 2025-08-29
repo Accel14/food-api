@@ -5,3 +5,4 @@ export * from './get-payments.dto';
 export * from './get-report.dto';
 export * from './pay-dto';
 export * from './send-check.dto';
+export * from './check-progress.dto';
