@@ -1,15 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { FoodController } from './food.controller';
 import { FoodService } from './food.service';
 import { CheckRequestDto, CheckResponseDto } from './dto/commands/check-dto';
-import { ConfigService } from '@nestjs/config';
-import { HttpService } from '@nestjs/axios';
 import { GetAccountsRequestDto, GetAccountsResponseDto } from './dto/commands/get-accounts-dto';
 import { GetMenuRequestDto, GetMenuResponseDto } from './dto/commands/get-menu-dto';
 import { ValidationPipe } from '@nestjs/common';
 import { PayRequestDto, PayResponseDto } from './dto/commands/pay-dto';
 import { SendCheckRequestDto, SendCheckResponseDto } from './dto/commands/send-check.dto';
 import { GetReportRequestDto, GetReportResponseDto } from './dto/commands/get-report.dto';
+import { TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 
 describe('FoodController', () => {
   let controller: FoodController;
@@ -183,7 +184,7 @@ describe('FoodController', () => {
         command: 'get_menu',
         txn_id: 0,
         account: '025',
-        account_type: 'provide',
+        account_type: 'provider',
         sum: undefined,
         agent: 'superagent',
         txn_date: 0,
@@ -232,7 +233,7 @@ describe('FoodController', () => {
         command: 'get_menu',
         txn_id: 0,
         account: '025',
-        account_type: 'provide',
+        account_type: 'provider',
         sum: 0.0,
         agent: 'superagent',
         txn_date: 0,
